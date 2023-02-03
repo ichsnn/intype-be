@@ -6,6 +6,7 @@ import { Student } from './student.entity';
 import { StudentService } from './student.service';
 
 import { JwtModule } from '@nestjs/jwt';
+import { LeaderboardsModule } from './leaderboards/leaderboards.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { JwtModule } from '@nestjs/jwt';
       secret: 'itsasecret',
       signOptions: { expiresIn: '1w' },
     }),
+    LeaderboardsModule,
   ],
   providers: [StudentService],
   controllers: [StudentController],
