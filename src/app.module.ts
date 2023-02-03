@@ -9,8 +9,6 @@ import { UserModule } from './user/user.module';
 import { StudentModule } from './student/student.module';
 import { AdminModule } from './admin/admin.module';
 
-import { JwtModule } from '@nestjs/jwt';
-
 @Module({
   imports: [
     TypeOrmModule.forRoot({
