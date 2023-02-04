@@ -78,4 +78,32 @@ export class StudentController {
       });
     }
   }
+
+  @Post('update')
+  async update(@Req() request: Request, @Res() response: Response) {
+    try {
+      const { authorization } = request.headers;
+      if (!authorization) throw new Error('Unauthorized');
+      const headerAuth = authorization.split(' ');
+      if (headerAuth[0] !== 'Bearer') throw new Error('Unauthorized');
+      const token = headerAuth[1];
+      const newStudentData = request.body;
+      const student = await this.studentService.updateProfile(
+        token,
+        newStudentData,
+      );
+      return response.status(200).json({
+        code: 200,
+        status: 'success',
+        message: 'Update profile success',
+        data: student,
+      });
+    } catch (error) {
+      response.status(400).json({
+        code: 400,
+        status: 'error',
+        message: error.message,
+      });
+    }
+  }
 }

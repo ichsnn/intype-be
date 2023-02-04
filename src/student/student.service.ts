@@ -6,6 +6,7 @@ import { Student } from './student.entity';
 import * as bcrypt from 'bcrypt';
 import { getIdentifier } from 'src/shareds/utils/getIdentifier';
 import { JwtService } from '@nestjs/jwt';
+import { UpdateStudentDto } from './dto/update-student.dto';
 
 @Injectable()
 export class StudentService {
@@ -93,5 +94,25 @@ export class StudentService {
       },
     });
     return student;
+  }
+
+  async updateProfile(access_token: string, student: UpdateStudentDto) {
+    const oldStudent = await this.getStudent(access_token);
+    const { email, username, ...studentUpdateValue } = student;
+
+    await this.userRepository.save({
+      uid: oldStudent.userUid,
+      email,
+      username,
+      updatedAt: new Date(),
+    });
+
+    const newStudent = await this.studentRepository.save({
+      userUid: oldStudent.userUid,
+      ...studentUpdateValue,
+      updatedAt: new Date(),
+    });
+
+    return newStudent;
   }
 }
