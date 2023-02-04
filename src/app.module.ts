@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 
@@ -8,6 +8,8 @@ import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { StudentModule } from './student/student.module';
 import { AdminModule } from './admin/admin.module';
+import { StudentAuthMiddleware } from './middlewares/studentauth.middleware';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -22,6 +24,10 @@ import { AdminModule } from './admin/admin.module';
       autoLoadEntities: true,
       entities: [__dirname + './**/*.entity{.ts,.js}'],
     }),
+    JwtModule.register({
+      secret: 'itsasecret',
+      signOptions: { expiresIn: '1w' },
+    }),
     StudentModule,
     UserModule,
     AdminModule,
@@ -29,6 +35,16 @@ import { AdminModule } from './admin/admin.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {
+export class AppModule implements NestModule {
   constructor(private dataSource: DataSource) {}
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(StudentAuthMiddleware)
+      .forRoutes(
+        '/student/get',
+        '/student/update',
+        '/student/update/password',
+        '/student/tests/*',
+      );
+  }
 }

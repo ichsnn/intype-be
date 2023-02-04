@@ -6,15 +6,11 @@ import { StudentService } from './student.service';
 export class StudentController {
   constructor(private studentService: StudentService) {}
 
-  @Get('/get')
+  @Get('get')
   async get(@Req() request: Request, @Res() response: Response) {
     try {
-      const { authorization } = request.headers;
-      if (!authorization) throw new Error('Unauthorized');
-      const headerAuth = authorization.split(' ');
-      if (headerAuth[0] !== 'Bearer') throw new Error('Unauthorized');
-      const token = headerAuth[1];
-      const student = await this.studentService.getStudent(token);
+      const uid = request.headers.uid as string;
+      const student = await this.studentService.getStudent(uid);
       response.status(200).json({
         code: 200,
         status: 'success',
@@ -82,14 +78,10 @@ export class StudentController {
   @Post('update')
   async update(@Req() request: Request, @Res() response: Response) {
     try {
-      const { authorization } = request.headers;
-      if (!authorization) throw new Error('Unauthorized');
-      const headerAuth = authorization.split(' ');
-      if (headerAuth[0] !== 'Bearer') throw new Error('Unauthorized');
-      const token = headerAuth[1];
+      const uid = request.headers.uid as string;
       const newStudentData = request.body;
       const student = await this.studentService.updateProfile(
-        token,
+        uid,
         newStudentData,
       );
       return response.status(200).json({

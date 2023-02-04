@@ -18,6 +18,10 @@ export class StudentService {
     private jwtService: JwtService,
   ) {}
 
+  async findStudent(uid: string) {
+    return await this.studentRepository.findOneBy({ user: { uid } });
+  }
+
   async findUserByUsername(username: string) {
     return this.studentRepository.findOneBy({ user: { username } });
   }
@@ -77,10 +81,9 @@ export class StudentService {
     };
   }
 
-  async getStudent(access_token: string) {
-    const payload = this.jwtService.verify(access_token);
-    const { ...student } = await this.studentRepository.findOne({
-      where: [{ user: { uid: payload.uid } }],
+  async getStudent(uid: string) {
+    const student = await this.studentRepository.findOne({
+      where: [{ user: { uid } }],
       relations: { user: true },
       select: {
         user: {
@@ -93,11 +96,12 @@ export class StudentService {
         },
       },
     });
+    if (!student) throw new Error('Student not found');
     return student;
   }
 
-  async updateProfile(access_token: string, student: UpdateStudentDto) {
-    const oldStudent = await this.getStudent(access_token);
+  async updateProfile(uid: string, student: UpdateStudentDto) {
+    const oldStudent = await this.getStudent(uid);
     const { email, username, ...studentUpdateValue } = student;
 
     await this.userRepository.save({

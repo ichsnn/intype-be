@@ -7,6 +7,7 @@ import { StudentService } from './student.service';
 
 import { JwtModule } from '@nestjs/jwt';
 import { LeaderboardsModule } from './leaderboards/leaderboards.module';
+import { TestsModule } from './test/tests.module';
 
 @Module({
   imports: [
@@ -16,9 +17,10 @@ import { LeaderboardsModule } from './leaderboards/leaderboards.module';
       signOptions: { expiresIn: '1w' },
     }),
     LeaderboardsModule,
+    TestsModule,
   ],
   providers: [StudentService],
   controllers: [StudentController],
-  exports: [TypeOrmModule],
+  exports: [TypeOrmModule, StudentService],
 })
 export class StudentModule {}
