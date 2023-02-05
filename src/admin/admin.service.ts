@@ -24,12 +24,7 @@ export class AdminService {
 
     if (!user) return null;
 
-    console.log(pass);
-    console.log(user.password);
-
     const isPasswordValid = await bcrypt.compare(pass, user.password);
-
-    console.log(isPasswordValid);
 
     if (!isPasswordValid) return null;
 

@@ -51,6 +51,7 @@ export class AppModule implements NestModule {
       .apply(AdminAuthMiddleware)
       .forRoutes(
         routes.admin.me,
+        routes.admin.register,
         routes.words.create,
         routes.words.update,
         routes.words.delete,

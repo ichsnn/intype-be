@@ -15,6 +15,7 @@ export const student = {
 export const admin = {
   me: adminBase + '/me',
   login: adminBase + '/login',
+  register: adminBase + '/register',
 };
 
 export const words = {
