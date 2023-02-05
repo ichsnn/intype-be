@@ -6,7 +6,7 @@ import { AdminService } from './admin.service';
 export class AdminController {
   constructor(private adminService: AdminService) {}
 
-  @Post('get')
+  @Post('me')
   async get(@Req() request: Request, @Res() response: Response) {
     try {
       const uid = request.headers.uid as string;

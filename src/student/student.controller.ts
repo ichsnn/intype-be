@@ -6,7 +6,7 @@ import { StudentService } from './student.service';
 export class StudentController {
   constructor(private studentService: StudentService) {}
 
-  @Get('get')
+  @Get('me')
   async get(@Req() request: Request, @Res() response: Response) {
     try {
       const uid = request.headers.uid as string;
