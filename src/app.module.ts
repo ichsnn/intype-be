@@ -12,6 +12,7 @@ import { StudentAuthMiddleware } from './middlewares/studentauth.middleware';
 import { JwtModule } from '@nestjs/jwt';
 import { AdminAuthMiddleware } from './middlewares/adminauth.middleware';
 import * as routes from './shareds/constants/routes';
+import { WordModule } from './word/word.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import * as routes from './shareds/constants/routes';
     StudentModule,
     UserModule,
     AdminModule,
+    WordModule,
   ],
   controllers: [AppController],
   providers: [AppService],
