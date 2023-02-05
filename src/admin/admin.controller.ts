@@ -14,7 +14,7 @@ export class AdminController {
       response.status(200).json({
         code: 200,
         status: 'success',
-        message: 'Get user success',
+        message: 'Data pengguna berhasil diambil',
         data: admin,
       });
     } catch (error) {
@@ -38,7 +38,7 @@ export class AdminController {
         response.status(200).json({
           code: 200,
           status: 'success',
-          message: 'Login success',
+          message: 'Berhasil masuk ke akun',
           data: {
             access_token,
           },
@@ -55,7 +55,7 @@ export class AdminController {
       response.status(400).json({
         code: 400,
         status: 'error',
-        message: 'Username and password required',
+        message: 'Username atau password tidak boleh kosong',
         data: null,
       });
     }

@@ -17,7 +17,7 @@ export class TestsController {
       response.status(200).json({
         code: 200,
         status: 'success',
-        message: 'Get listen typing success',
+        message: 'Berhasil mendapatkan data listen typing',
         data: null,
       });
     } catch (error) {
@@ -45,7 +45,7 @@ export class TestsController {
       response.status(200).json({
         code: 200,
         status: 'success',
-        message: 'Save listen typing success',
+        message: 'Data listen typing berhasil disimpan',
         data: data,
       });
     } catch (error) {
@@ -73,7 +73,7 @@ export class TestsController {
       response.status(200).json({
         code: 200,
         status: 'success',
-        message: 'Save compose grammar success',
+        message: 'Data compose grammar berhasil disimpan',
         data: data,
       });
     } catch (error) {

@@ -14,7 +14,7 @@ export class StudentController {
       response.status(200).json({
         code: 200,
         status: 'success',
-        message: 'Get user success',
+        message: 'Berhasil mendapatkan data pengguna',
         data: student,
       });
     } catch (error) {
@@ -37,7 +37,7 @@ export class StudentController {
       response.status(200).json({
         code: 200,
         status: 'success',
-        message: 'Register success',
+        message: 'Berhasil mendaftarkan pengguna',
         data: null,
       });
     } catch (error) {
@@ -61,7 +61,7 @@ export class StudentController {
       response.status(200).json({
         code: 200,
         status: 'success',
-        message: 'Login success',
+        message: 'Berhasil masuk ke akun',
         data: {
           access_token,
         },
@@ -88,7 +88,7 @@ export class StudentController {
       return response.status(200).json({
         code: 200,
         status: 'success',
-        message: 'Update profile success',
+        message: 'Berhasil memperbarui data pengguna',
         data: student,
       });
     } catch (error) {
@@ -110,7 +110,7 @@ export class StudentController {
       return response.status(200).json({
         code: 200,
         status: 'success',
-        message: 'Update password success',
+        message: 'Berhasil memperbarui password pengguna',
         data: null,
       });
     } catch (error) {

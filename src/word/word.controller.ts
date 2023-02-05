@@ -15,7 +15,7 @@ export class WordController {
       return response.status(200).json({
         code: 200,
         status: 'success',
-        message: 'Get all words success',
+        message: 'Berhasil mendapatkan data kata',
         data: words,
       });
     } catch (error) {
@@ -36,7 +36,7 @@ export class WordController {
       return response.status(200).json({
         code: 200,
         status: 'success',
-        message: 'Save word success',
+        message: 'Berhasil menambahkan kata',
         data: word,
       });
     } catch (error) {
@@ -57,7 +57,7 @@ export class WordController {
       return response.status(200).json({
         code: 200,
         status: 'success',
-        message: 'Update word success',
+        message: 'Berhasil memperbarui kata',
         data: word,
       });
     } catch (error) {
@@ -78,7 +78,7 @@ export class WordController {
       return response.status(200).json({
         code: 200,
         status: 'success',
-        message: 'Delete word success',
+        message: 'Berhasil menghapus kata',
         data: null,
       });
     } catch (error) {
@@ -100,7 +100,7 @@ export class WordController {
       return response.status(200).json({
         code: 200,
         status: 'success',
-        message: 'Get random word success',
+        message: 'Berhasil mendapatkan kata acak',
         data: randomWord,
       });
     } catch (error) {
