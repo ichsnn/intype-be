@@ -1,4 +1,4 @@
-import { Controller, Post, Req, Res } from '@nestjs/common';
+import { Controller, Get, Post, Req, Res } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { AdminService } from './admin.service';
 
@@ -6,7 +6,7 @@ import { AdminService } from './admin.service';
 export class AdminController {
   constructor(private adminService: AdminService) {}
 
-  @Post('me')
+  @Get('me')
   async get(@Req() request: Request, @Res() response: Response) {
     try {
       const uid = request.headers.uid as string;
@@ -15,6 +15,27 @@ export class AdminController {
         code: 200,
         status: 'success',
         message: 'Data pengguna berhasil diambil',
+        data: admin,
+      });
+    } catch (error) {
+      response.status(400).json({
+        code: 400,
+        status: 'error',
+        message: error.message,
+        data: null,
+      });
+    }
+  }
+
+  @Post('register')
+  async register(@Req() request: Request, @Res() response: Response) {
+    try {
+      const { username, email, password } = request.body;
+      const admin = await this.adminService.register(username, email, password);
+      response.status(200).json({
+        code: 200,
+        status: 'success',
+        message: 'Pengguna berhasil didaftarkan',
         data: admin,
       });
     } catch (error) {
