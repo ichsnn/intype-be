@@ -74,6 +74,13 @@ export class WordController {
   async delete(@Req() request: Request, @Res() response: Response) {
     try {
       const data = request.body as DeleteWordDto;
+      await this.wordService.delete(data);
+      return response.status(200).json({
+        code: 200,
+        status: 'success',
+        message: 'Delete word success',
+        data: null,
+      });
     } catch (error) {
       response.status(400).json({
         code: 400,
