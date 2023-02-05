@@ -44,8 +44,6 @@ export class AppModule implements NestModule {
       .apply(StudentAuthMiddleware)
       .forRoutes(
         routes.student.me,
-        routes.student.login,
-        routes.student.register,
         routes.student.update,
         routes.student.tests + '/*',
       )

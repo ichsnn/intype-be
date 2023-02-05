@@ -74,7 +74,7 @@ export class StudentService {
 
   // Login User
   async login(user: any) {
-    const payload = { uid: user.uid, username: user.username, role: user.role };
+    const payload = { uid: user.uid, role: user.role };
 
     return {
       access_token: this.jwtService.sign(payload),
@@ -111,11 +111,13 @@ export class StudentService {
       updatedAt: new Date(),
     });
 
-    const newStudent = await this.studentRepository.save({
+    await this.studentRepository.save({
       userUid: oldStudent.userUid,
       ...studentUpdateValue,
       updatedAt: new Date(),
     });
+
+    const newStudent = await this.getStudent(uid);
 
     return newStudent;
   }

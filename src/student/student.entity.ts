@@ -7,8 +7,6 @@ import {
   JoinColumn,
   OneToMany,
 } from 'typeorm';
-import { ComposeGrammar } from './test/composegrammar/composegrammar.entity';
-import { ListenTyping } from './test/listentyping/listentyping.entity';
 import { Tests } from './test/tests.entity';
 
 @Entity()
@@ -23,10 +21,15 @@ export class Student {
   @Column()
   name: string;
 
-  @Column()
+  @Column({ type: 'enum', enum: ['1', '2'], nullable: true, default: null })
   gender: string;
 
-  @Column()
+  @Column({
+    type: 'enum',
+    enum: ['1', '2', '3', '4', '5', '6', '7'],
+    nullable: true,
+    default: null,
+  })
   education: string;
 
   @Column({ default: () => 'NOW' })
