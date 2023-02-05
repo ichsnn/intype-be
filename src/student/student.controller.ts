@@ -56,7 +56,7 @@ export class StudentController {
       const { identifier, password } = request.body;
       if (!identifier || !password) throw new Error('Field tidak sesuai');
       const user = await this.studentService.validateUser(identifier, password);
-      if (!user) throw new Error('Username atau password salah');
+      if (!user) throw new Error('Kredensial salah');
       const { access_token } = await this.studentService.login(user);
       response.status(200).json({
         code: 200,

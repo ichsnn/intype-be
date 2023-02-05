@@ -33,7 +33,7 @@ export class AdminController {
     if (username && password) {
       try {
         const admin = await this.adminService.validateUser(username, password);
-        if (!admin) throw new Error('Username atau password salah');
+        if (!admin) throw new Error('Kredensial salah');
         const { access_token } = await this.adminService.login(admin);
         response.status(200).json({
           code: 200,
@@ -55,7 +55,7 @@ export class AdminController {
       response.status(400).json({
         code: 400,
         status: 'error',
-        message: 'Username atau password tidak boleh kosong',
+        message: 'Kredensial tidak sesuai',
         data: null,
       });
     }
