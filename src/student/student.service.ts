@@ -35,8 +35,8 @@ export class StudentService {
     const isEmailExist = await this.findUserByEmail(email);
     const isUsernameExist = await this.findUserByUsername(username);
 
-    if (isEmailExist) throw new Error('Email already exist');
-    if (isUsernameExist) throw new Error('Username already exist');
+    if (isUsernameExist) throw new Error('Username sudah ada');
+    if (isEmailExist) throw new Error('Email sudah ada');
 
     const saltOrRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltOrRounds);
@@ -96,7 +96,7 @@ export class StudentService {
         },
       },
     });
-    if (!student) throw new Error('Student not found');
+    if (!student) throw new Error('Pelajar tidak ditemukan');
     return student;
   }
 

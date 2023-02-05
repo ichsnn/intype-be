@@ -8,14 +8,14 @@ export class StudentAuthMiddleware implements NestMiddleware {
   async use(req: Request, res: Response, next: NextFunction) {
     try {
       const { authorization } = req.headers;
-      if (!authorization) throw new Error('Authorization header is required');
+      if (!authorization) throw new Error('Authorization header diperlukan');
       const token = authorization.split(' ')[1];
-      if (!token) throw new Error('Token is required');
+      if (!token) throw new Error('Token diperlukan');
       const payload = this.jwtService.verify(token);
-      if (!payload) throw new Error('Invalid token');
+      if (!payload) throw new Error('Token tidak valid');
       const { uid, role } = payload;
-      if (role !== 'student') throw new Error('Invalid token');
-      if (!uid) throw new Error('Invalid token');
+      if (role !== 'student') throw new Error('Token tidak valid');
+      if (!uid) throw new Error('Token tidak valid');
       req.headers.uid = uid;
       next();
     } catch (error) {

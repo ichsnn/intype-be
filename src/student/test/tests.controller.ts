@@ -35,7 +35,8 @@ export class TestsController {
     try {
       const uid = request.headers.uid as string;
       const { score, duration, question }: SaveListenTypingDto = request.body;
-      if (!score || !duration || !question) throw new Error('Missing fields');
+      if (!score || !duration || !question)
+        throw new Error('Field tidak sesuai');
       const data = await this.listenTypingService.save(uid, {
         score,
         duration,
@@ -62,7 +63,8 @@ export class TestsController {
     try {
       const uid = request.headers.uid as string;
       const { score, duration, question }: SaveComposeGrammarDto = request.body;
-      if (!score || !duration || !question) throw new Error('Missing fields');
+      if (!score || !duration || !question)
+        throw new Error('Field tidak sesuai');
       const data = await this.composeGrammarService.save(uid, {
         score,
         duration,

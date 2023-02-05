@@ -31,7 +31,8 @@ export class StudentController {
   async register(@Req() request: Request, @Res() response: Response) {
     try {
       const { username, email, password } = request.body;
-      if (!username || !email || !password) throw new Error('Missing fields');
+      if (!username || !email || !password)
+        throw new Error('Field tidak sesuai');
       await this.studentService.register(email, username, password);
       response.status(200).json({
         code: 200,
@@ -53,9 +54,9 @@ export class StudentController {
   async login(@Req() request: Request, @Res() response: Response) {
     try {
       const { identifier, password } = request.body;
-      if (!identifier || !password) throw new Error('Missing fields');
+      if (!identifier || !password) throw new Error('Field tidak sesuai');
       const user = await this.studentService.validateUser(identifier, password);
-      if (!user) throw new Error('Username or password is incorrect');
+      if (!user) throw new Error('Username atau password salah');
       const { access_token } = await this.studentService.login(user);
       response.status(200).json({
         code: 200,
@@ -104,7 +105,7 @@ export class StudentController {
     try {
       const uid = request.headers.uid as string;
       const { oldPassword, newPassword } = request.body;
-      if (!oldPassword || !newPassword) throw new Error('Missing fields');
+      if (!oldPassword || !newPassword) throw new Error('Field tidak sesuai');
       await this.studentService.updatePassword(uid, oldPassword, newPassword);
       return response.status(200).json({
         code: 200,

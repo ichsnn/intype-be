@@ -33,7 +33,7 @@ export class AdminController {
     if (username && password) {
       try {
         const admin = await this.adminService.validateUser(username, password);
-        if (!admin) throw new Error('Username or password is incorrect');
+        if (!admin) throw new Error('Username atau password salah');
         const { access_token } = await this.adminService.login(admin);
         response.status(200).json({
           code: 200,
