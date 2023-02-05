@@ -1,17 +1,24 @@
-const routes = {
-  // Student
-  studentGet: '/student/me',
-  registerStudent: '/student/register',
-  studentLogin: '/student/login',
-  studentUpdate: '/student/update',
-  // Admin
-  adminGet: '/admin/get',
-  adminLogin: '/admin/login',
-  // Word
-  wordGetAll: '/words',
-  wordCreate: '/words/create',
-  wordUpdate: '/words/update',
-  wordDelete: '/words/delete',
-  wordRandom: '/words/random',
+export const studentBase = '/student';
+export const adminBase = '/admin';
+export const wordsBase = '/words';
+export const testsBase = '/student/tests';
+
+export const student = {
+  me: studentBase + '/me',
+  register: studentBase + '/register',
+  login: studentBase + '/login',
+  update: studentBase + '/update',
+  tests: testsBase,
 };
-export default routes;
+
+export const admin = {
+  me: adminBase + '/me',
+  login: adminBase + '/login',
+};
+
+export const words = {
+  random: '/random',
+  create: '/create',
+  update: '/update',
+  delete: '/delete',
+};

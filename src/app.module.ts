@@ -11,6 +11,7 @@ import { AdminModule } from './admin/admin.module';
 import { StudentAuthMiddleware } from './middlewares/studentauth.middleware';
 import { JwtModule } from '@nestjs/jwt';
 import { AdminAuthMiddleware } from './middlewares/adminauth.middleware';
+import * as routes from './shareds/constants/routes';
 
 @Module({
   imports: [
@@ -42,18 +43,18 @@ export class AppModule implements NestModule {
     consumer
       .apply(StudentAuthMiddleware)
       .forRoutes(
-        '/student/get',
-        '/student/update',
-        '/student/update/password',
-        '/student/tests/*',
+        routes.student.me,
+        routes.student.login,
+        routes.student.register,
+        routes.student.update,
+        routes.student.tests + '/*',
       )
       .apply(AdminAuthMiddleware)
       .forRoutes(
-        '/admin/get',
-        '/admin/update/password',
-        '/word/create',
-        '/word/update',
-        '/word/delete',
+        routes.admin.me,
+        routes.words.create,
+        routes.words.update,
+        routes.words.delete,
       );
   }
 }
