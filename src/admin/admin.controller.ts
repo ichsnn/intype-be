@@ -9,12 +9,8 @@ export class AdminController {
   @Post('get')
   async get(@Req() request: Request, @Res() response: Response) {
     try {
-      const { authorization } = request.headers;
-      if (!authorization) throw new Error('Unauthorized');
-      const headerAuth = authorization.split(' ');
-      if (headerAuth[0] !== 'Bearer') throw new Error('Unauthorized');
-      const token = headerAuth[1];
-      const admin = await this.adminService.getAdmin(token);
+      const uid = request.headers.uid as string;
+      const admin = await this.adminService.getAdmin(uid);
       response.status(200).json({
         code: 200,
         status: 'success',

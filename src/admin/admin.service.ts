@@ -39,10 +39,9 @@ export class AdminService {
     };
   }
 
-  async getAdmin(access_token: string) {
-    const payload = this.jwtService.verify(access_token);
+  async getAdmin(uid: string) {
     const admin = await this.adminRepository.findOne({
-      where: [{ user: { uid: payload.uid } }],
+      where: [{ user: { uid } }],
       relations: { user: true },
       select: {
         user: {
