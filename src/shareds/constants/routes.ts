@@ -8,6 +8,7 @@ export const student = {
   register: studentBase + '/register',
   login: studentBase + '/login',
   update: studentBase + '/update',
+  updatePassword: studentBase + '/update/password',
   tests: testsBase,
 };
 

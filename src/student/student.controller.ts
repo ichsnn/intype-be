@@ -98,4 +98,26 @@ export class StudentController {
       });
     }
   }
+
+  @Post('update/password')
+  async updatePassword(@Req() request: Request, @Res() response: Response) {
+    try {
+      const uid = request.headers.uid as string;
+      const { oldPassword, newPassword } = request.body;
+      if (!oldPassword || !newPassword) throw new Error('Missing fields');
+      await this.studentService.updatePassword(uid, oldPassword, newPassword);
+      return response.status(200).json({
+        code: 200,
+        status: 'success',
+        message: 'Update password success',
+        data: null,
+      });
+    } catch (error) {
+      response.status(400).json({
+        code: 400,
+        status: 'error',
+        message: error.message,
+      });
+    }
+  }
 }

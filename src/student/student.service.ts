@@ -121,4 +121,31 @@ export class StudentService {
 
     return newStudent;
   }
+
+  async updatePassword(uid: string, oldPassword: string, newPassword: string) {
+    const oldStudent = await this.userRepository.findOneBy({ uid });
+
+    const isPasswordValid = await bcrypt.compare(
+      oldPassword,
+      oldStudent.password,
+    );
+
+    if (!isPasswordValid) throw new Error('Password lama tidak sesuai');
+
+    if (oldPassword === newPassword)
+      throw new Error('Password lama dan password baru tidak boleh sama');
+
+    const saltOrRounds = 10;
+    const hashedPassword = await bcrypt.hash(newPassword, saltOrRounds);
+
+    await this.userRepository.save({
+      uid: oldStudent.uid,
+      password: hashedPassword,
+      updatedAt: new Date(),
+    });
+
+    const newStudent = await this.getStudent(uid);
+
+    return newStudent;
+  }
 }

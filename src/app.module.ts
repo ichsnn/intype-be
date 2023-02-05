@@ -45,6 +45,7 @@ export class AppModule implements NestModule {
       .forRoutes(
         routes.student.me,
         routes.student.update,
+        routes.student.updatePassword,
         routes.student.tests + '/*',
       )
       .apply(AdminAuthMiddleware)
