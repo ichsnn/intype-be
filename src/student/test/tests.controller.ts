@@ -109,6 +109,26 @@ export class TestsController {
     }
   }
 
+  @Get('leaderboard/top10')
+  async getLeaderboard(@Req() request: Request, @Res() response: Response) {
+    try {
+      const tests = await this.composeGrammarService.find();
+      response.status(200).json({
+        code: 200,
+        status: 'success',
+        message: 'Berhasil mendapatkan data leaderboard',
+        data: tests,
+      });
+    } catch (error) {
+      response.status(400).json({
+        code: 400,
+        status: 'error',
+        message: error.message,
+        data: null,
+      });
+    }
+  }
+
   @Get('stats/listentyping/week')
   async getListenTypingStatsWeek(
     @Req() request: Request,

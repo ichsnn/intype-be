@@ -35,4 +35,9 @@ export class ComposeGrammarService {
     });
     return await this.composeGrammarRepository.save(composeGrammar);
   }
+
+  async find() {
+    console.log('masuk find compose grammar');
+    return await this.composeGrammarRepository.find();
+  }
 }
