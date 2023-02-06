@@ -13,4 +13,14 @@ export class TestsService {
   async findAll() {
     return await this.testsRepository.find();
   }
+
+  async findAllBy(uid: string) {
+    return await this.testsRepository.find({
+      where: {
+        student: {
+          userUid: uid,
+        },
+      },
+    });
+  }
 }

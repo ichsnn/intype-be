@@ -35,4 +35,8 @@ export class ListenTypingService {
     });
     return await this.listenTypingRepository.save(listenTyping);
   }
+
+  async findAllBy(uid: string) {
+    await this.listenTypingRepository.find();
+  }
 }

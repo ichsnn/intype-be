@@ -13,6 +13,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { AdminAuthMiddleware } from './middlewares/adminauth.middleware';
 import * as routes from './shareds/constants/routes';
 import { WordModule } from './word/word.module';
+import { ListenTypingModule } from './student/test/listentyping/listentyping.module';
 
 @Module({
   imports: [

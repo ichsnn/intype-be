@@ -108,4 +108,130 @@ export class TestsController {
       });
     }
   }
+
+  @Get('stats/listentyping/week')
+  async getListenTypingStatsWeek(
+    @Req() request: Request,
+    @Res() response: Response,
+  ) {
+    try {
+      const uid = request.headers.uid as string;
+      if (!uid) throw new Error('Field tidak sesuai');
+
+      const data = await this.testService.findAllBy(uid);
+
+      /*
+      {
+        1: [
+          {
+            "name": 'date',
+            "score": 0
+          },
+          {
+            "name": 'date',
+            "score": 0
+          }
+        ],
+        2: [
+          {
+            "name": 'date',
+            "score": 0
+          },
+        ]
+      }
+      */
+
+      // data.type === 1 => compose grammar
+      // data.type === 2 => listen typing
+
+      const result = {
+        1: [],
+        2: [],
+      };
+
+      data.forEach((item) => {
+        if (item.type === '1') {
+          result[1].push({
+            Tanggal: item.createdAt.toISOString().split('T')[0],
+            Skor: item.score,
+          });
+        } else if (item.type === '2') {
+          result[2].push({
+            Tanggal: item.createdAt.toISOString().split('T')[0],
+            Skor: item.score,
+          });
+        }
+        return result;
+      });
+
+      // get last 7 days until now
+      const last7Days = [];
+      for (let i = 0; i < 7; i++) {
+        const d = new Date();
+        d.setDate(d.getDate() - i);
+        last7Days.push(d);
+      }
+
+      const result2 = {
+        1: [],
+        2: [],
+      };
+
+      last7Days.forEach((item) => {
+        const date = item.toISOString().split('T')[0];
+
+        const composeGrammar = result[1].filter(
+          (item) => item.Tanggal === date,
+        );
+        const listenTyping = result[2].filter((item) => item.Tanggal === date);
+
+        if (composeGrammar.length > 0) {
+          const max = composeGrammar.reduce((prev, current) =>
+            prev.Skor > current.Skor ? prev : current,
+          );
+          result2[1].push({
+            Tanggal: date,
+            Skor: max.Skor,
+          });
+        } else {
+          result2[1].push({
+            Tanggal: date,
+            Skor: 0,
+          });
+        }
+
+        if (listenTyping.length > 0) {
+          const max = listenTyping.reduce((prev, current) =>
+            prev.Skor > current.Skor ? prev : current,
+          );
+          result2[2].push({
+            Tanggal: date,
+            Skor: max.Skor,
+          });
+        } else {
+          result2[2].push({
+            Tanggal: date,
+            Skor: 0,
+          });
+        }
+      });
+
+      result2[1].reverse();
+      result2[2].reverse();
+
+      return response.status(200).json({
+        code: 200,
+        status: 'success',
+        message: 'Berhasil mendapatkan data statistik listen typing',
+        data: result2,
+      });
+    } catch (error) {
+      return response.status(400).json({
+        code: 400,
+        status: 'error',
+        message: error.message,
+        data: null,
+      });
+    }
+  }
 }
