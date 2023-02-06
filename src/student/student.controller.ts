@@ -176,6 +176,17 @@ export class StudentController {
           value: 0,
         });
       });
+      if (!result.find((item) => item.name === 'Tidak Diketahui')) {
+        result.push({
+          name: 'Tidak Diketahui',
+          value: 0,
+        });
+      }
+      result.sort((a, b) => {
+        if (a.name === 'Tidak Diketahui') return -1;
+        if (b.name === 'Tidak Diketahui') return 1;
+        return getEducation[a.name] - getEducation[b.name];
+      });
       return response.status(200).json({
         code: 200,
         status: 'success',
