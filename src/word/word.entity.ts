@@ -5,7 +5,7 @@ export class Word {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({ unique: true })
   word: string;
 
   @Column({
@@ -20,6 +20,7 @@ export class Word {
       'pronoun',
       'verb',
     ],
+    nullable: false,
   })
   type: string;
 

@@ -32,12 +32,14 @@ export class WordController {
   async save(@Req() request: Request, @Res() response: Response) {
     try {
       const data = request.body;
-      const word = await this.wordService.save(data);
+      const { word, type } = data;
+      if (!word || !type) throw new Error('Field tidak sesuai');
+      const wordData = await this.wordService.save(data);
       return response.status(200).json({
         code: 200,
         status: 'success',
         message: 'Berhasil menambahkan kata',
-        data: word,
+        data: wordData,
       });
     } catch (error) {
       return response.status(400).json({
