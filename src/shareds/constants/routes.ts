@@ -10,6 +10,7 @@ export const student = {
   update: studentBase + '/update',
   updatePassword: studentBase + '/update/password',
   tests: testsBase,
+  count: studentBase + '/count',
 };
 
 export const admin = {
@@ -23,4 +24,5 @@ export const words = {
   create: '/create',
   update: '/update',
   delete: '/delete',
+  count: '/count',
 };

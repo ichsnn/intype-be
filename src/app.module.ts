@@ -44,6 +44,7 @@ export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(StudentAuthMiddleware)
+      .exclude('student/tests/count')
       .forRoutes(
         routes.student.me,
         routes.student.update,

@@ -10,6 +10,7 @@ import { UpdateStudentDto } from './dto/update-student.dto';
 
 @Injectable()
 export class StudentService {
+  getEducation: any;
   constructor(
     @InjectRepository(Student)
     private studentRepository: Repository<Student>,
@@ -17,6 +18,10 @@ export class StudentService {
     private userRepository: Repository<User>,
     private jwtService: JwtService,
   ) {}
+
+  async findAll() {
+    return await this.studentRepository.find();
+  }
 
   async findStudent(uid: string) {
     return await this.studentRepository.findOneBy({ user: { uid } });

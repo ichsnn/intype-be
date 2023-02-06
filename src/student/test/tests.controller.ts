@@ -4,12 +4,14 @@ import { ComposeGrammarService } from './composegrammar/composegrammar.service';
 import { SaveComposeGrammarDto } from './composegrammar/dto/save-composegrammar.dto';
 import { SaveListenTypingDto } from './listentyping/dto/save-listentyping.dto';
 import { ListenTypingService } from './listentyping/listentyping.service';
+import { TestsService } from './tests.service';
 
 @Controller('/student/tests')
 export class TestsController {
   constructor(
     private listenTypingService: ListenTypingService,
     private composeGrammarService: ComposeGrammarService,
+    private testService: TestsService,
   ) {}
   @Get('listentyping')
   async getListenTyping(@Req() request: Request, @Res() response: Response) {
@@ -78,6 +80,27 @@ export class TestsController {
       });
     } catch (error) {
       response.status(400).json({
+        code: 400,
+        status: 'error',
+        message: error.message,
+        data: null,
+      });
+    }
+  }
+
+  @Get('count')
+  async getCount(@Req() request: Request, @Res() response: Response) {
+    try {
+      const tests = await this.testService.findAll();
+      const count = tests.length;
+      return response.status(200).json({
+        code: 200,
+        status: 'success',
+        message: 'Berhasil mendapatkan jumlah data tests',
+        data: count,
+      });
+    } catch (error) {
+      return response.status(400).json({
         code: 400,
         status: 'error',
         message: error.message,

@@ -13,7 +13,7 @@ export class WordService {
     private wordRepository: Repository<Word>,
   ) {}
 
-  async findALL() {
+  async findAll() {
     return await this.wordRepository.find();
   }
 

@@ -7,6 +7,7 @@ import { ListenTyping } from './listentyping/listentyping.entity';
 import { ListenTypingModule } from './listentyping/listentyping.module';
 import { TestsController } from './tests.controller';
 import { Tests } from './tests.entity';
+import { TestsService } from './tests.service';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { Tests } from './tests.entity';
     ComposeGrammarModule,
   ],
   controllers: [TestsController],
-  providers: [],
+  providers: [TestsService],
+  exports: [TestsService, TypeOrmModule],
 })
 export class TestsModule {}

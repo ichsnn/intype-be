@@ -11,12 +11,33 @@ export class WordController {
   @Get()
   async getAll(@Req() request: Request, @Res() response: Response) {
     try {
-      const words = await this.wordService.findALL();
+      const words = await this.wordService.findAll();
       return response.status(200).json({
         code: 200,
         status: 'success',
         message: 'Berhasil mendapatkan data kata',
         data: words,
+      });
+    } catch (error) {
+      return response.status(400).json({
+        code: 400,
+        status: 'error',
+        message: error.message,
+        data: null,
+      });
+    }
+  }
+
+  @Get('count')
+  async getCount(@Req() request: Request, @Res() response: Response) {
+    try {
+      const words = await this.wordService.findAll();
+      const count = words.length;
+      return response.status(200).json({
+        code: 200,
+        status: 'success',
+        message: 'Berhasil mendapatkan jumlah kata',
+        data: count,
       });
     } catch (error) {
       return response.status(400).json({
@@ -96,7 +117,7 @@ export class WordController {
   @Get('random')
   async getRandom(@Req() request: Request, @Res() response: Response) {
     try {
-      const words = await this.wordService.findALL();
+      const words = await this.wordService.findAll();
       const randomIndex = Math.floor(Math.random() * words.length);
       const randomWord = words[randomIndex];
       return response.status(200).json({

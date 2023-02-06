@@ -1,6 +1,7 @@
 import { Controller, Get, Post, Req, Res } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { StudentService } from './student.service';
+import { getEducation } from 'src/shareds/utils/getEducation';
 
 @Controller('student')
 export class StudentController {
@@ -112,6 +113,74 @@ export class StudentController {
         status: 'success',
         message: 'Berhasil memperbarui password pengguna',
         data: null,
+      });
+    } catch (error) {
+      response.status(400).json({
+        code: 400,
+        status: 'error',
+        message: error.message,
+      });
+    }
+  }
+
+  @Get('count')
+  async count(@Req() request: Request, @Res() response: Response) {
+    try {
+      const student = await this.studentService.findAll();
+      const count = student.length;
+      return response.status(200).json({
+        code: 200,
+        status: 'success',
+        message: 'Berhasil mendapatkan jumlah pengguna',
+        data: count,
+      });
+    } catch (error) {
+      response.status(400).json({
+        code: 400,
+        status: 'error',
+        message: error.message,
+      });
+    }
+  }
+
+  @Get('stats/education')
+  async statistics(@Req() request: Request, @Res() response: Response) {
+    try {
+      const student = await this.studentService.findAll();
+      const education = student.map((student) => {
+        return {
+          name: getEducation[student.education] || 'Tidak Diketahui',
+          value: 1,
+        };
+      });
+      // group the array by name
+      const grouped = education.reduce((r, a) => {
+        r[a.name] = [...(r[a.name] || []), a];
+        return r;
+      }, {});
+      // sum the value of each group
+      const result = Object.keys(grouped).map((key) => {
+        return {
+          name: key,
+          value: grouped[key].reduce((sum, item) => sum + item.value, 0),
+        };
+      });
+      // data pendidikan yang tidak ada di database
+      const notFound = Object.keys(getEducation).filter(
+        (key) => !result.find((item) => item.name === getEducation[key]),
+      );
+      // tambahkan data pendidikan yang tidak ada di database
+      notFound.forEach((item) => {
+        result.push({
+          name: getEducation[item],
+          value: 0,
+        });
+      });
+      return response.status(200).json({
+        code: 200,
+        status: 'success',
+        message: 'Berhasil mendapatkan data statistik pengguna',
+        data: result,
       });
     } catch (error) {
       response.status(400).json({
