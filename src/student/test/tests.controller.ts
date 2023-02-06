@@ -120,30 +120,6 @@ export class TestsController {
 
       const data = await this.testService.findAllBy(uid);
 
-      /*
-      {
-        1: [
-          {
-            "name": 'date',
-            "score": 0
-          },
-          {
-            "name": 'date',
-            "score": 0
-          }
-        ],
-        2: [
-          {
-            "name": 'date',
-            "score": 0
-          },
-        ]
-      }
-      */
-
-      // data.type === 1 => compose grammar
-      // data.type === 2 => listen typing
-
       const result = {
         1: [],
         2: [],
