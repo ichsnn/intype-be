@@ -1,5 +1,6 @@
 import { Controller, Get, Post, Req, Res } from '@nestjs/common';
 import { Request, Response } from 'express';
+import { OpenaiService } from 'src/openai/openai.service';
 import { ComposeGrammarService } from './composegrammar/composegrammar.service';
 import { SaveComposeGrammarDto } from './composegrammar/dto/save-composegrammar.dto';
 import { SaveListenTypingDto } from './listentyping/dto/save-listentyping.dto';
@@ -12,6 +13,7 @@ export class TestsController {
     private listenTypingService: ListenTypingService,
     private composeGrammarService: ComposeGrammarService,
     private testService: TestsService,
+    private openaiService: OpenaiService,
   ) {}
   @Get('listentyping')
   async getListenTyping(@Req() request: Request, @Res() response: Response) {
@@ -222,6 +224,40 @@ export class TestsController {
         data: result2,
       });
     } catch (error) {
+      return response.status(400).json({
+        code: 400,
+        status: 'error',
+        message: error.message,
+        data: null,
+      });
+    }
+  }
+
+  @Get('composegrammar/sentences')
+  async getSentences(@Req() request: Request, @Res() response: Response) {
+    try {
+      const result = await this.openaiService.createCompletion(
+        'create random grammar sentences for grammar test',
+      );
+      const sentences = [];
+      result.data.choices.forEach((item) => {
+        const text = item.text;
+        const newSentence = text.replace(/[^a-zA-Z ]/g, '');
+        if (newSentence[0] === ' ') {
+          sentences.push(newSentence.slice(1));
+        } else {
+          sentences.push(newSentence);
+        }
+      });
+      console.log(sentences);
+      return response.status(200).json({
+        code: 200,
+        status: 'success',
+        message: 'Berhasil mendapatkan data statistik listen typing',
+        data: sentences,
+      });
+    } catch (error) {
+      console.error(error);
       return response.status(400).json({
         code: 400,
         status: 'error',

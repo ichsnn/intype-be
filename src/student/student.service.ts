@@ -80,7 +80,6 @@ export class StudentService {
   // Login User
   async login(user: any) {
     const payload = { uid: user.uid, role: user.role };
-
     return {
       access_token: this.jwtService.sign(payload),
     };

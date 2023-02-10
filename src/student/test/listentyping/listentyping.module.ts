@@ -1,18 +1,11 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { JwtModule } from '@nestjs/jwt';
 import { ListenTypingService } from './listentyping.service';
 import { ListenTyping } from './listentyping.entity';
 import { Tests } from '../tests.entity';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([ListenTyping, Tests]),
-    JwtModule.register({
-      secret: 'itsasecret',
-      signOptions: { expiresIn: '1w' },
-    }),
-  ],
+  imports: [TypeOrmModule.forFeature([ListenTyping, Tests])],
   providers: [ListenTypingService],
   exports: [TypeOrmModule, ListenTypingService],
 })

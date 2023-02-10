@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { openai } from 'src/shareds/openai/openai.service';
 import { Repository } from 'typeorm';
 import { Tests } from '../tests.entity';
 import { ComposeGrammar } from './composegrammar.entity';
