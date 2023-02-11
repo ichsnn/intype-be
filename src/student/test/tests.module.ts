@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { OpenaiModule } from 'src/openai/openai.module';
-import { OpenaiService } from 'src/openai/openai.service';
 import { Student } from '../student.entity';
 import { ComposeGrammar } from './composegrammar/composegrammar.entity';
 import { ComposeGrammarModule } from './composegrammar/composegrammar.module';
