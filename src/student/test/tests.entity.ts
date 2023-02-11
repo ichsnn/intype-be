@@ -9,14 +9,17 @@ export class Tests {
   @Column({ type: 'enum', enum: ['1', '2'] })
   type: string;
 
-  @Column()
+  @Column({ nullable: false })
   score: number;
 
-  @Column()
+  @Column({ nullable: false })
   duration: number;
 
   @Column({ default: () => 'NOW' })
   createdAt: Date;
+
+  @Column('longtext', { nullable: false })
+  questions: string;
 
   @ManyToOne(() => Student, (student) => student.tests)
   student: Student;

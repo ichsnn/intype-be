@@ -1,17 +1,13 @@
 import { Controller, Get, Post, Req, Res } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { OpenaiService } from 'src/openai/openai.service';
-import { ComposeGrammarService } from './composegrammar/composegrammar.service';
-import { SaveComposeGrammarDto } from './composegrammar/dto/save-composegrammar.dto';
-import { SaveListenTypingDto } from './listentyping/dto/save-listentyping.dto';
-import { ListenTypingService } from './listentyping/listentyping.service';
+import { SaveComposeGrammarDto } from './dto/save-composegrammar.dto';
+import { SaveListenTypingDto } from './dto/save-listentyping.dto';
 import { TestsService } from './tests.service';
 
 @Controller('/student/tests')
 export class TestsController {
   constructor(
-    private listenTypingService: ListenTypingService,
-    private composeGrammarService: ComposeGrammarService,
     private testService: TestsService,
     private openaiService: OpenaiService,
   ) {}
@@ -38,13 +34,13 @@ export class TestsController {
   async saveListenTyping(@Req() request: Request, @Res() response: Response) {
     try {
       const uid = request.headers.uid as string;
-      const { score, duration, question }: SaveListenTypingDto = request.body;
-      if (!score || !duration || !question)
+      const { score, duration, questions }: SaveListenTypingDto = request.body;
+      if (!score || !duration || !questions)
         throw new Error('Field tidak sesuai');
-      const data = await this.listenTypingService.save(uid, {
+      const data = await this.testService.saveListenTyping(uid, {
         score,
         duration,
-        question,
+        questions,
       });
       response.status(200).json({
         code: 200,
@@ -66,13 +62,14 @@ export class TestsController {
   async saveComposeGrammar(@Req() request: Request, @Res() response: Response) {
     try {
       const uid = request.headers.uid as string;
-      const { score, duration, question }: SaveComposeGrammarDto = request.body;
-      if (!score || !duration || !question)
+      const { score, duration, questions }: SaveComposeGrammarDto =
+        request.body;
+      if (!score || !duration || !questions)
         throw new Error('Field tidak sesuai');
-      const data = await this.composeGrammarService.save(uid, {
+      const data = await this.testService.saveComposeGrammar(uid, {
         score,
         duration,
-        question,
+        questions,
       });
       response.status(200).json({
         code: 200,
@@ -114,7 +111,7 @@ export class TestsController {
   @Get('leaderboard/top10')
   async getLeaderboard(@Req() request: Request, @Res() response: Response) {
     try {
-      const tests = await this.composeGrammarService.find();
+      const tests = await this.testService.findAllListenTypingBy();
       response.status(200).json({
         code: 200,
         status: 'success',
@@ -249,7 +246,6 @@ export class TestsController {
           sentences.push(newSentence);
         }
       });
-      console.log(sentences);
       return response.status(200).json({
         code: 200,
         status: 'success',
