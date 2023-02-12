@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Req, Res } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { StudentService } from './student.service';
-import { getEducation } from 'src/shareds/utils/getEducation';
+import { getEducation } from 'utils/getEducation';
 
 @Controller('student')
 export class StudentController {

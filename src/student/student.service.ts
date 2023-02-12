@@ -4,7 +4,7 @@ import { User } from 'src/user/user.entity';
 import { Repository } from 'typeorm';
 import { Student } from './student.entity';
 import * as bcrypt from 'bcrypt';
-import { getIdentifier } from 'src/shareds/utils/getIdentifier';
+import { getIdentifier } from 'utils/getIdentifier';
 import { JwtService } from '@nestjs/jwt';
 import { UpdateStudentDto } from './dto/update-student.dto';
 

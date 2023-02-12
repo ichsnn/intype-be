@@ -12,10 +12,10 @@ import { StudentModule } from './student/student.module';
 import { AdminModule } from './admin/admin.module';
 import { StudentAuthMiddleware } from './middlewares/studentauth.middleware';
 import { AdminAuthMiddleware } from './middlewares/adminauth.middleware';
-import * as routes from './shareds/constants/routes';
+import * as routes from '../constants/routes';
 import { WordModule } from './word/word.module';
 import { OpenaiModule } from './openai/openai.module';
-import { DatabaseConfiguration } from './config/database.configuration';
+import { DatabaseConfiguration } from '../config/database.configuration';
 
 @Module({
   imports: [
