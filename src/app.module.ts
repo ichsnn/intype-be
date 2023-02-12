@@ -15,11 +15,13 @@ import { AdminAuthMiddleware } from './middlewares/adminauth.middleware';
 import * as routes from './shareds/constants/routes';
 import { WordModule } from './word/word.module';
 import { OpenaiModule } from './openai/openai.module';
+import { DatabaseConfiguration } from './config/database.configuration';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       envFilePath: '.env',
+      isGlobal: true,
     }),
     JwtModule.register({
       secret: process.env.JWT_SECRET,
@@ -27,25 +29,8 @@ import { OpenaiModule } from './openai/openai.module';
         expiresIn: process.env.JWT_EXPIRES_IN,
       },
     }),
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host:
-        process.env.NODE_ENV === 'production'
-          ? process.env.DB_HOST
-          : 'localhost',
-      port:
-        process.env.NODE_ENV === 'production'
-          ? parseInt(process.env.DB_PORT, 10)
-          : 3306,
-      username:
-        process.env.NODE_ENV === 'production' ? process.env.DB_USER : 'root',
-      password:
-        process.env.NODE_ENV === 'production' ? process.env.DB_PASSWORD : '',
-      database:
-        process.env.NODE_ENV === 'production' ? process.env.DB_NAME : 'intype',
-      synchronize: process.env.NODE_ENV === 'production' ? false : true,
-      autoLoadEntities: true,
-      entities: [__dirname + './**/*.entity{.ts,.js}'],
+    TypeOrmModule.forRootAsync({
+      useClass: DatabaseConfiguration,
     }),
     StudentModule,
     UserModule,

@@ -5,7 +5,7 @@ import { Configuration, OpenAIApi } from 'openai';
 export class OpenaiService {
   constructor(private openai: OpenAIApi) {
     const config = new Configuration({
-      apiKey: process.env.API_KEY_OPENAI,
+      apiKey: process.env.OPENAI_API_KEY,
     });
     this.openai = new OpenAIApi(config);
   }

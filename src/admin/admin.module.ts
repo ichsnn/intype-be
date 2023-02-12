@@ -7,13 +7,8 @@ import { AdminService } from './admin.service';
 import { User } from 'src/user/user.entity';
 import { AdminController } from './admin.controller';
 
-import { ConfigModule } from '@nestjs/config';
-
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      envFilePath: '.env',
-    }),
     TypeOrmModule.forFeature([Admin, User]),
     JwtModule.register({
       secret: process.env.JWT_SECRET,

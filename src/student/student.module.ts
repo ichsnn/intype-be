@@ -8,13 +8,9 @@ import { StudentService } from './student.service';
 import { JwtModule } from '@nestjs/jwt';
 import { LeaderboardsModule } from './leaderboards/leaderboards.module';
 import { TestsModule } from './test/tests.module';
-import { ConfigModule } from '@nestjs/config/dist';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      envFilePath: '.env',
-    }),
     TypeOrmModule.forFeature([Student, User]),
     JwtModule.register({
       secret: process.env.JWT_SECRET,
