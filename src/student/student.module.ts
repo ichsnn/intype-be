@@ -8,15 +8,13 @@ import { StudentService } from './student.service';
 import { JwtModule } from '@nestjs/jwt';
 import { LeaderboardsModule } from './leaderboards/leaderboards.module';
 import { TestsModule } from './test/tests.module';
+import { JwtConfiguration } from 'src/jwt/jwt.configuration';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Student, User]),
     JwtModule.registerAsync({
-      useFactory: () => ({
-        secret: process.env.JWT_SECRET,
-        signOptions: { expiresIn: process.env.JWT_EXPIRES_IN },
-      }),
+      useClass: JwtConfiguration,
     }),
     LeaderboardsModule,
     TestsModule,

@@ -6,15 +6,13 @@ import { JwtModule } from '@nestjs/jwt';
 import { AdminService } from './admin.service';
 import { User } from 'src/user/user.entity';
 import { AdminController } from './admin.controller';
+import { JwtConfiguration } from 'src/jwt/jwt.configuration';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Admin, User]),
     JwtModule.registerAsync({
-      useFactory: () => ({
-        secret: process.env.JWT_SECRET,
-        signOptions: { expiresIn: process.env.JWT_EXPIRES_IN },
-      }),
+      useClass: JwtConfiguration,
     }),
   ],
   providers: [AdminService],

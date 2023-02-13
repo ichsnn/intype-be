@@ -16,6 +16,7 @@ import * as routes from '../constants/routes';
 import { WordModule } from './word/word.module';
 import { OpenaiModule } from './openai/openai.module';
 import { DatabaseConfiguration } from '../config/database.configuration';
+import { JwtConfiguration } from './jwt/jwt.configuration';
 
 @Module({
   imports: [
@@ -23,11 +24,8 @@ import { DatabaseConfiguration } from '../config/database.configuration';
       envFilePath: '.env',
       isGlobal: true,
     }),
-    JwtModule.register({
-      secret: process.env.JWT_SECRET,
-      signOptions: {
-        expiresIn: process.env.JWT_EXPIRES_IN,
-      },
+    JwtModule.registerAsync({
+      useClass: JwtConfiguration,
     }),
     TypeOrmModule.forRootAsync({
       useClass: DatabaseConfiguration,
