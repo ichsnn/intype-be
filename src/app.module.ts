@@ -16,7 +16,7 @@ import * as routes from '../constants/routes';
 import { WordModule } from './word/word.module';
 import { OpenaiModule } from './openai/openai.module';
 import { DatabaseConfiguration } from '../config/database.configuration';
-import { JwtConfiguration } from './jwt/jwt.configuration';
+import { JwtConfiguration } from '../config/jwt.configuration';
 
 @Module({
   imports: [

@@ -8,7 +8,7 @@ import { StudentService } from './student.service';
 import { JwtModule } from '@nestjs/jwt';
 import { LeaderboardsModule } from './leaderboards/leaderboards.module';
 import { TestsModule } from './test/tests.module';
-import { JwtConfiguration } from 'src/jwt/jwt.configuration';
+import { JwtConfiguration } from 'config/jwt.configuration';
 
 @Module({
   imports: [
