@@ -15,7 +15,7 @@ export class DatabaseConfiguration implements TypeOrmOptionsFactory {
       database: process.env.DB_NAME,
       synchronize: false,
       entities: [__dirname + '/../**/*.entity{.ts,.js}'],
-      migrations: ['dist/database/migrations/*.js'],
+      migrations: ['dist/migrations/*.js'],
     };
   }
 }
