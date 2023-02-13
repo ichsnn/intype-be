@@ -26,9 +26,8 @@ export class Student {
 
   @Column({
     type: 'enum',
-    enum: ['1', '2', '3', '4', '5', '6', '7'],
-    nullable: true,
-    default: null,
+    enum: ['0', '1', '2', '3', '4', '5', '6', '7'],
+    default: '0',
   })
   education: string;
 
