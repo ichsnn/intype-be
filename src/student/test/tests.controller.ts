@@ -253,7 +253,6 @@ export class TestsController {
         data: sentences,
       });
     } catch (error) {
-      console.error(error);
       return response.status(400).json({
         code: 400,
         status: 'error',
