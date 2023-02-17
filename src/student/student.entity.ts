@@ -18,7 +18,7 @@ export class Student {
   @JoinColumn()
   user: User;
 
-  @Column()
+  @Column({ nullable: true })
   name: string;
 
   @Column({ type: 'enum', enum: ['1', '2'], nullable: true, default: null })
@@ -28,6 +28,7 @@ export class Student {
     type: 'enum',
     enum: ['0', '1', '2', '3', '4', '5', '6', '7'],
     default: '0',
+    nullable: true,
   })
   education: string;
 
