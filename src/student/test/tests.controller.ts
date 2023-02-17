@@ -35,7 +35,7 @@ export class TestsController {
     try {
       const uid = request.headers.uid as string;
       const { score, duration, questions }: SaveListenTypingDto = request.body;
-      if (!score || !duration || !questions)
+      if (score === undefined || duration === undefined || !questions)
         throw new Error('Field tidak sesuai');
       const data = await this.testService.saveListenTyping(uid, {
         score,
@@ -64,8 +64,9 @@ export class TestsController {
       const uid = request.headers.uid as string;
       const { score, duration, questions }: SaveComposeGrammarDto =
         request.body;
-      if (!score || !duration || !questions)
+      if (score === undefined || duration === undefined || !questions)
         throw new Error('Field tidak sesuai');
+
       const data = await this.testService.saveComposeGrammar(uid, {
         score,
         duration,
