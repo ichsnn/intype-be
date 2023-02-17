@@ -234,10 +234,11 @@ export class TestsController {
   async getSentences(@Req() request: Request, @Res() response: Response) {
     try {
       const result = await this.openaiService.createCompletion(
-        'create random grammar sentences for grammar test',
+        'create a random sentence with grammar tense',
       );
       const sentences = [];
       result.data.choices.forEach((item) => {
+        if (item.finish_reason !== 'stop') return;
         const text = item.text;
         const newSentence = text.replace(/[^a-zA-Z ]/g, '');
         if (newSentence[0] === ' ') {
