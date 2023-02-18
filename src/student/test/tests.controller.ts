@@ -158,6 +158,9 @@ export class TestsController {
         },
       );
 
+      listenTypingTestsDetail.sort((a, b) => b.score - a.score);
+      composeGrammarTestsDetail.sort((a, b) => b.score - a.score);
+
       const tests = {
         listentyping: listenTypingTestsDetail,
         composegrammar: composeGrammarTestsDetail,
