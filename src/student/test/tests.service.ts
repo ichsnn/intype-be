@@ -56,13 +56,13 @@ export class TestsService {
 
   async findAllListenTyping() {
     return await this.testsRepository.query(
-      'SELECT *, MAX(alltest.score) FROM (SELECT * FROM tests JOIN (SELECT student.education, student.userUid, user.username, student.gender FROM student JOIN user ON student.userUid = user.uid) AS su ON tests.studentUserUid = su.userUid WHERE tests.type = 2) as alltest GROUP BY alltest.userUid;',
+      'SELECT *, MAX(alltest.score) FROM (SELECT * FROM tests JOIN (SELECT student.education, student.userUid, user.username, student.gender FROM student JOIN user ON student.userUid = user.uid) AS su ON tests.studentUserUid = su.userUid WHERE tests.type = 2) as alltest GROUP BY alltest.userUid ORDER BY alltest.score DESC LIMIT 10;',
     );
   }
 
   async findAllComposeGrammar() {
     return await this.testsRepository.query(
-      'SELECT *, MAX(alltest.score) FROM (SELECT * FROM tests JOIN (SELECT student.education, student.userUid, user.username, student.gender FROM student JOIN user ON student.userUid = user.uid) AS su ON tests.studentUserUid = su.userUid WHERE tests.type = 1) as alltest GROUP BY alltest.userUid;',
+      'SELECT *, MAX(alltest.score) FROM (SELECT * FROM tests JOIN (SELECT student.education, student.userUid, user.username, student.gender FROM student JOIN user ON student.userUid = user.uid) AS su ON tests.studentUserUid = su.userUid WHERE tests.type = 1) as alltest GROUP BY alltest.userUid ORDER BY alltest.score DESC LIMIT 10;',
     );
   }
 }
