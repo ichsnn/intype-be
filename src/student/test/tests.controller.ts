@@ -118,6 +118,9 @@ export class TestsController {
       const composeGrammarTests =
         await this.testService.findAllComposeGrammar();
 
+      listenTypingTests.sort((a, b) => b.score - a.score);
+      composeGrammarTests.sort((a, b) => b.score - a.score);
+
       const listenTypingTestsDetail = listenTypingTests.map((item, index) => {
         const questions = JSON.parse(item.questions);
         const correct = questions.filter(
@@ -157,9 +160,6 @@ export class TestsController {
           };
         },
       );
-
-      listenTypingTestsDetail.sort((a, b) => b.score - a.score);
-      composeGrammarTestsDetail.sort((a, b) => b.score - a.score);
 
       const tests = {
         listentyping: listenTypingTestsDetail,
