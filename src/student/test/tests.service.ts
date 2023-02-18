@@ -54,15 +54,15 @@ export class TestsService {
     await this.testsRepository.save(tests);
   }
 
-  async findAllListenTypingBy() {
+  async findAllListenTyping() {
     return await this.testsRepository.query(
-      'SELECT * FROM tests JOIN (SELECT student.education, student.userUid, user.username, student.gender FROM student JOIN user ON student.userUid = user.uid) AS su ON tests.studentUserUid = su.userUid WHERE tests.type = 2 order by tests.score',
+      'SELECT *, MAX(alltest.score) FROM (SELECT * FROM tests JOIN (SELECT student.education, student.userUid, user.username, student.gender FROM student JOIN user ON student.userUid = user.uid) AS su ON tests.studentUserUid = su.userUid WHERE tests.type = 2) as alltest GROUP BY alltest.userUid;',
     );
   }
 
   async findAllComposeGrammar() {
     return await this.testsRepository.query(
-      'SELECT * FROM tests JOIN (SELECT student.education, student.userUid, user.username, student.gender FROM student JOIN user ON student.userUid = user.uid) AS su ON tests.studentUserUid = su.userUid WHERE tests.type = 1 order by tests.score desc',
+      'SELECT *, MAX(alltest.score) FROM (SELECT * FROM tests JOIN (SELECT student.education, student.userUid, user.username, student.gender FROM student JOIN user ON student.userUid = user.uid) AS su ON tests.studentUserUid = su.userUid WHERE tests.type = 1) as alltest GROUP BY alltest.userUid;',
     );
   }
 }

@@ -1,6 +1,7 @@
 import { Controller, Get, Post, Req, Res } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { OpenaiService } from 'src/openai/openai.service';
+import { getEducation } from 'utils/getEducation';
 import { SaveComposeGrammarDto } from './dto/save-composegrammar.dto';
 import { SaveListenTypingDto } from './dto/save-listentyping.dto';
 import { TestsService } from './tests.service';
@@ -112,7 +113,56 @@ export class TestsController {
   @Get('leaderboard/top10')
   async getLeaderboard(@Req() request: Request, @Res() response: Response) {
     try {
-      const tests = await this.testService.findAllListenTypingBy();
+      // const tests = await this.testService.findAllListenTypingBy();
+      const listenTypingTests = await this.testService.findAllListenTyping();
+      const composeGrammarTests =
+        await this.testService.findAllComposeGrammar();
+
+      const listenTypingTestsDetail = listenTypingTests.map((item, index) => {
+        const questions = JSON.parse(item.questions);
+        const correct = questions.filter(
+          (question: any) => question.isAnswered === true,
+        ).length;
+        const wrong = questions.length - correct;
+        const accuration = Math.round((correct / questions.length) * 100);
+        return {
+          rank: index + 1,
+          uid: item.userUid,
+          username: item.username,
+          education: getEducation[item.education],
+          score: item.score,
+          correct: correct,
+          wrong: wrong,
+          accuration: accuration,
+        };
+      });
+
+      const composeGrammarTestsDetail = composeGrammarTests.map(
+        (item, index) => {
+          const questions = JSON.parse(item.questions);
+          const correct = questions.filter(
+            (question: any) => question.isAnswered === true,
+          ).length;
+          const wrong = questions.length - correct;
+          const accuration = Math.round((correct / questions.length) * 100);
+          return {
+            rank: index + 1,
+            uid: item.userUid,
+            username: item.username,
+            education: getEducation[item.education],
+            score: item.score,
+            correct: correct,
+            wrong: wrong,
+            accuration: accuration,
+          };
+        },
+      );
+
+      const tests = {
+        listentyping: listenTypingTestsDetail,
+        composegrammar: composeGrammarTestsDetail,
+      };
+
       response.status(200).json({
         code: 200,
         status: 'success',
