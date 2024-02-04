@@ -5,12 +5,14 @@ import { getEducation } from 'utils/getEducation';
 import { SaveComposeGrammarDto } from './dto/save-composegrammar.dto';
 import { SaveListenTypingDto } from './dto/save-listentyping.dto';
 import { TestsService } from './tests.service';
+import { GeminiService } from 'src/gemini/gemini.service';
 
 @Controller('/student/tests')
 export class TestsController {
   constructor(
     private testService: TestsService,
     private openaiService: OpenaiService,
+    private geminiService: GeminiService,
   ) {}
   @Get('listentyping')
   async getListenTyping(@Req() request: Request, @Res() response: Response) {
@@ -284,14 +286,15 @@ export class TestsController {
   @Get('composegrammar/sentences')
   async getSentences(@Req() request: Request, @Res() response: Response) {
     try {
-      const result = await this.openaiService.createCompletion(
-        'create a random sentence with grammar tense',
+      console.log('get compose grammar');
+      const result = await this.geminiService.createCompletion(
+        'create 10 random simple sentence with grammar for writing test',
       );
       const sentences = [];
-      result.data.choices.forEach((item) => {
-        if (item.finish_reason !== 'stop') return;
-        const text = item.text;
-        const newSentence = text.replace(/[^a-zA-Z ]/g, '');
+      // remove new line from result and split and remove if there is empty string on array also remove number like "1. " from the sentence
+      const newResult = result.split('\n').filter((item) => item !== '');
+      newResult.forEach((item) => {
+        const newSentence = item.replace(/[^a-zA-Z ]/g, '');
         if (newSentence[0] === ' ') {
           sentences.push(newSentence.slice(1));
         } else {
@@ -305,6 +308,7 @@ export class TestsController {
         data: sentences,
       });
     } catch (error) {
+      console.log(error);
       return response.status(400).json({
         code: 400,
         status: 'error',

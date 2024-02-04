@@ -1,20 +1,18 @@
 import { Injectable } from '@nestjs/common';
-import { Configuration, OpenAIApi } from 'openai';
+import { OpenAI } from 'openai';
 
 @Injectable()
 export class OpenaiService {
-  constructor(private openai: OpenAIApi) {
-    const config = new Configuration({
+  constructor(private openai: OpenAI) {
+    this.openai = new OpenAI({
       apiKey: process.env.OPENAI_API_KEY,
     });
-    this.openai = new OpenAIApi(config);
   }
 
   async createCompletion(prompt: string) {
-    return await this.openai.createCompletion({
-      model: 'text-davinci-003',
-      prompt: prompt,
-      n: 10,
+    return await this.openai.chat.completions.create({
+      messages: [{ role: 'user', content: prompt }],
+      model: 'davinci-002',
     });
   }
 }

@@ -17,6 +17,7 @@ import { WordModule } from './word/word.module';
 import { OpenaiModule } from './openai/openai.module';
 import { DatabaseConfiguration } from '../config/database.configuration';
 import { JwtConfiguration } from '../config/jwt.configuration';
+import { GeminiModule } from './gemini/gemini.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { JwtConfiguration } from '../config/jwt.configuration';
     AdminModule,
     WordModule,
     OpenaiModule,
+    GeminiModule,
   ],
   controllers: [AppController],
   providers: [AppService],
